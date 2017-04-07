@@ -1,0 +1,67 @@
+<!--Read speaker.json, orgs.json and conf.csv and display them in required format.
+Author: Grace Du--> 
+<!DOCTYPE html>
+<html ng-app="confApp">
+  <head>
+    <meta charset="utf-8">
+     <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script>
+      var confApp = angular.module('confApp', []);
+      confApp.controller('ConfCtrl', function ($scope, $http){
+        $http.get('speakers.json').success(function(data) {
+        $scope.speakers = data;
+		});
+		$http.get('orgs.json').success(function(data) {
+        $scope.orgs = data;
+		});
+		$http.get('conf.csv').success(function(data) {
+        $scope.csv = data;
+		});
+      });
+    </script>
+	<style>
+	#sp,#orgorg {
+	width:350px;
+	height:800px;
+	float:left;
+	border: 1px solid blue;
+	overflow:scroll;
+	margin:10px;
+	}
+	#csv {
+	width:550px;
+	height:800px;
+	float:left;
+	border: 1px solid blue;
+	overflow:scroll;
+	margin:10px;
+	}
+	#tit{
+	text-align:center;
+	}
+	p {
+	text-align:justify;
+	margin:4px;
+	}
+	</style>
+  </head>
+  <body ng-controller="ConfCtrl">
+  <h1 id="tit"> Conference Information</h1>
+  <div id="sp">
+     <h1>&nbsp&nbspSpeakers </h1>
+     <ul ng-repeat="speaker in speakers">
+     <li>{{speaker.name}} has spoken at {{speaker.sessionIds.length}} session(s)</li>
+     </ul>
+  </div>
+  <div id="orgorg">
+     <h1>&nbspOrganization</h1>
+     <ul ng-repeat="org in orgs">
+     <li>{{ org.name}} has {{org.speakers.length}} speaker at {{org.sessionIds.length}} session(s)</li>
+     </ul>
+  </div>
+  <div id="csv">
+     <h1>&nbspConverted CSV</h1>
+	 <p> {{csv}} </p>
+  </div>	 
+  </body>
+</html>
